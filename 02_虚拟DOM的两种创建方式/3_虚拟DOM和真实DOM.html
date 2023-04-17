@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>虚拟dom和真实dom</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+        <div id="demo"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建虚拟dom, 后面内容不要加引号，正常使用html
+            const vDom =
+                <h1 id='title'>
+                    <span>Hello,React</span>
+                </h1>
+            // 渲染虚拟dom到页面
+            ReactDOM.render(vDom, document.getElementById('test'))
+
+            console.log('虚拟dom', vDom)
+            /*{
+                  "type": "h1",
+                  "key": null,
+                  "ref": null,
+                  "props": {
+                      "id": "title",
+                      "children": {
+                          "type": "span",
+                          "key": null,
+                          "ref": null,
+                          "props": {
+                              "children": "Hello,React"
+                          },
+                          "_owner": null,
+                          "_store": {}
+                      }
+                  },
+                  "_owner": null,
+                  "_store": {}
+             }
+           */
+            console.log(typeof vDom) // object
+            console.log(vDom instanceof Object) // true
+
+            console.log('真实dom', document.getElementById('demo')) // <div id="demo"></div> 控制台渲染过，看不到
+            console.log(typeof document.getElementById('demo')) // object
+            console.log(document.getElementById('demo') instanceof Object) // true
+
+            // 使用断点查看真实dom
+            const tDom = document.getElementById('demo')
+            debugger
+
+
+            /*
+            * 1、虚拟dom本质上是Object类型的对象
+            * 2、虚拟dom比较”轻“，因为虚拟dom是react内部再用，无需真实dom上那么多的属性
+            * 3、虚拟dom最终会被转化为真实dom，呈现在页面上
+            */
+
+        </script>
+    </body>
+</html>
