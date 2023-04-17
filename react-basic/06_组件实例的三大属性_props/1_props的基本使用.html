@@ -8,6 +8,7 @@
         <!--准备好一个容器-->
         <div id="test"></div>
         <div id="test1"></div>
+        <div id="test2"></div>
 
         <!--  引入react核心库  -->
         <script type="text/javascript" src="../js/react.development.js"></script>
@@ -39,6 +40,11 @@
 
             ReactDOM.render(<Person name='ww' sex='girl' age='22'/>, document.getElementById('test'));
             ReactDOM.render(<Person name='xx' sex='boy' age='22'/>, document.getElementById('test1'));
+
+            const p = {name: 'hh', sex: 'boy', age:'23', birthday: '1999'};
+            // 在原生js中，展开运算符花括号加... 既（{...p}） 其行为是，将已有对象的所有可枚举 (enumerable) 属性拷贝到新构造的对象中
+            // 这里并不是上述说的拷贝
+            ReactDOM.render(<Person {...p}/>, document.getElementById('test2'));
         </script>
     </body>
 </html>

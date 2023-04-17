@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>2_props中字段类型限制</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+        <div id="test1"></div>
+        <div id="test2"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  引入react字段类型限制依赖      -->
+        <script type="text/javascript" src="../js/prop-types.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class Person extends React.Component {
+
+                // 指定字段类型
+                static propTypes = {
+                    name: PropTypes.string.isRequired,
+                    sex: PropTypes.string,
+                    age: PropTypes.number
+                }
+
+                // 指定默认值
+                static defaultProps = {
+                    sex: '男',
+                    age: 18
+                }
+
+                render() {
+                    console.log('render中的this', this)
+                    const {name, sex, age} = this.props;
+                    return (
+                        <div>
+                            <ul>
+                                <li>姓名：{name}</li>
+                                <li>性别：{sex}</li>
+                                <li>年龄：{age + 1}</li>
+                            </ul>
+                        </div>
+                    )
+                }
+            }
+
+            // ReactDOM.render(<Person name='ww' sex='girl' age='22'/>, document.getElementById('test'));
+            // ReactDOM.render(<Person name='xx' sex='boy' age='22'/>, document.getElementById('test1'));
+
+            const p = {name: 'hh', sex: 'boy', age: 23, birthday: '1999'};
+            ReactDOM.render(<Person {...p}/>, document.getElementById('test2'));
+
+            // 对上述age字段进行 +1 ’<li>年龄：{age + 1}</li>‘ 操作，发现 test2中的是好的，但是其他都是字符串拼接
+            // 所以我们需要对字段类型进行限制，让他们为我们需要的类型
+            // 在react中，我们使age为Number类型，需要使用js表达式，{22}
+
+            ReactDOM.render(<Person name='ww' age={22}/>, document.getElementById('test'));
+            ReactDOM.render(<Person name='xx'/>, document.getElementById('test1'));
+        </script>
+    </body>
+</html>
