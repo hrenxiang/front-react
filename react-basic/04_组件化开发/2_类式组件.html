@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>类式定义的组件</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class MyComponent extends React.Component {
+                render() {
+                    // render是放在哪里的？ myComponent的原型对象上，供实例使用
+                    // render中的this是谁？ myComponent的实例对象 <=> myComponent组件的实例对象
+                    console.log('render中的this：', this)
+                    return <h1>类式定义的组件（定义复杂组件）</h1>
+                }
+            }
+            // 渲染组件
+            ReactDOM.render(<MyComponent/>, document.getElementById('test'))
+        </script>
+    </body>
+</html>

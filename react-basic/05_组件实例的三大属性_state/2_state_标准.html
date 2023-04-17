@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>state_标准</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class HuangrxComponent extends React.Component {
+
+                // 构造器调用 一次
+                constructor(props) {
+                    console.log('constructor')
+                    super(props);
+                    this.state = {age: 42, sex: 'boy'}
+                    this.handleAgeChange = this.handleAgeChange.bind(this);
+                }
+
+                // 事件点击多少次，触发多少次
+                handleAgeChange() {
+                    // 状态不可直接更改，我们要使用内置的API进行更改
+                    console.log('handleAgeChange')
+                    this.setState({
+                        age: this.state.age + 1
+                    });
+                }
+
+                // 调用1 + n次，初始化时渲染页面1次，后面事件触发多少次就渲染几次
+                render() {
+                    console.log('render中的this:', this)
+                    return (
+                        <div>
+                            <button onClick={this.handleAgeChange}>
+                                Increment age
+                            </button>
+                            <p>Huangrx are {this.state.age} and cute {this.state.sex}.</p>
+                        </div>
+                    );
+                }
+            }
+
+            // 渲染虚拟dom到页面
+            ReactDOM.render(<HuangrxComponent/>, document.getElementById('test'))
+        </script>
+    </body>
+</html>
