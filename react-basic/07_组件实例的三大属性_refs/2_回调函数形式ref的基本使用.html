@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>2_回调函数形式ref的基本使用</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  引入react字段类型限制依赖      -->
+        <script type="text/javascript" src="../js/prop-types.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            class DemoComponent extends React.Component {
+
+                showData = () => {
+                    alert(this.input1.value)
+                }
+
+                showData2 = () => {
+                    alert(this.input2.value)
+                }
+                showData3 = () => {
+                    alert(this.input3.value)
+                }
+
+
+                changeInput = (currentNode) => {
+                    this.input3 = currentNode
+                }
+
+                render() {
+                    console.log(this)
+                    return (
+                        <div>
+                            {/* 内联模式：如果ref回调被定义为内联函数，它将在更新期间被调用两次，
+                            第一次是针对nullDOM 元素，然后是第二次。这是因为每次渲染都会创建一个新的函数实例，
+                            所以 React 需要清除旧的 ref 并设置新的。您可以通过将回调定义为类的绑定方法来避免这种情况ref，
+                            但请注意，在大多数情况下这无关紧要。*/
+                            }
+                            <label>
+                                <input ref={(currentNode) => {this.input1 = currentNode}} type="text" placeholder="点击按钮弹窗显示输入的数据！"/>
+                            </label>
+                            <button onClick={this.showData}>点我提示左侧输入的数据！</button>
+                            <label>
+                                <input ref={(currentNode) => {this.input2 = currentNode}} onBlur={this.showData2} type="text" placeholder="失去焦点弹窗显示输入的数据！"/>
+                            </label>
+                            {/*类绑定模式*/}
+                            <label>
+                                <input ref={this.changeInput} onBlur={this.showData3} type="text" placeholder="失去焦点弹窗显示输入的数据！"/>
+                            </label>
+                        </div>
+                    );
+                }
+            }
+            ReactDOM.render(<DemoComponent/>, document.getElementById('test'));
+        </script>
+    </body>
+</html>

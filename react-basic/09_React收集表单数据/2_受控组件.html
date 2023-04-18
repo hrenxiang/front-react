@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>受控组件</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class Login extends React.Component {
+
+                state = {username: '', password: ''}
+
+                handleSubmit = (event) => {
+                    // 阻止表单提交
+                    event.preventDefault()
+                    const {username, password} = this.state
+                    alert('username: ' + username + ', password: ' + password)
+                }
+
+                saveUsername = (event) => {
+                    this.setState({username: event.target.value})
+                }
+
+                savePassword = (event) => {
+                    this.setState({password: event.target.value})
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <form onSubmit={this.handleSubmit}>
+                                用户名：
+                                <label>
+                                    <input onChange={this.saveUsername} type="text" placeholder="username" name="username"/>
+                                </label>
+                                密码：
+                                <label>
+                                    <input onChange={this.savePassword} type="password" placeholder="password" name="password"/>
+                                </label>
+                                <button>Submit</button>
+                            </form>
+                        </div>
+                    );
+                }
+            }
+
+            // 渲染虚拟dom到页面
+            ReactDOM.render(<Login/>, document.getElementById('test'))
+        </script>
+    </body>
+</html>

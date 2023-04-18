@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>（新）生命周期</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class DemoComponent extends React.Component {
+
+                // 组件实例初始化
+                constructor(props) {
+                    console.log('constructor')
+                    super(props);
+                    this.state = {count: 0}
+                }
+
+                static getDerivedStateFromProps(nextProps, prevState) {
+                    console.log('getDerivedStateFromProps', nextProps, prevState)
+                    return null
+                    // return nextProps
+                }
+
+
+                // 组件进行渲染
+                // componentDidMount 后调用进行初始化渲染，并且状态更新之后也会调用
+                render() {
+                    console.log('render')
+                    return (
+                        <div>
+                            <h1 onClick={this.death}>你好！{this.state.count}</h1>
+                            <button onClick={this.add}>点我加一</button>
+                            <button onClick={this.force_update}>不更改任何数据，强制更新下组件</button>
+                        </div>
+                    );
+                }
+
+                // 组件挂载完毕
+                // render 后调用
+                componentDidMount() {
+                    console.log('componentDidMount')
+                }
+
+                // 内部调用 组件卸载方法
+                death = () => {
+                    ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+                    console.log('unmountComponentAtNode')
+                }
+
+                force_update = () => {
+                    this.forceUpdate()
+                    console.log('forceUpdate')
+                }
+
+                // 调用 setState 更新组件状态
+                add = () => {
+                    this.setState({count: this.state.count + 1});
+                }
+
+                // 控制组件更新的阀门
+                // 在setState() 后调用，如果不重写方法，默认返回true
+                shouldComponentUpdate(nextProps, nextState) {
+                    console.log('shouldComponentUpdate')
+                    // 返回true 才能进行后续的流程
+                    return true
+                }
+
+                getSnapshotBeforeUpdate(prevProps, prevState) {
+                    console.log('getSnapshotBeforeUpdate', prevProps, prevState)
+                    return prevProps
+                }
+
+
+                // 组件更新完毕 snapshotValue
+                // 在 componentWillUpdate 后调用
+                componentDidUpdate(prevProps, prevState, snapshotValue) {
+                    console.log('componentDidUpdate', prevProps, prevState, snapshotValue)
+                }
+
+
+            }
+
+            // 渲染虚拟dom到页面
+            ReactDOM.render(<DemoComponent count={199} name='huangrx'/>, document.getElementById('test'))
+        </script>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>hello_react</title>
+    </head>
+    <body>
+        <!--准备好一个容器-->
+        <div id="test"></div>
+
+        <!--  引入react核心库  -->
+        <script type="text/javascript" src="../js/react.development.js"></script>
+
+        <!--  引入react-dom， 用于支持react操作dom  -->
+        <script type="text/javascript" src="../js/react-dom.development.js"></script>
+
+        <!--  引入babel，用于将jsx转为js  -->
+        <script type="text/javascript" src="../js/babel.min.js"></script>
+
+        <!--  此处一定要写babel  -->
+        <script type="text/babel">
+            // 创建组件
+            class Login extends React.Component {
+
+                static LoginUrl = 'https://www.huangrx.cn';
+
+                handleSubmit = (event) => {
+                    // 阻止表单提交
+                    event.preventDefault()
+                    const {username, password} = this
+                    alert('username: ' + username.value + ', password: ' + password.value)
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <form onSubmit={this.handleSubmit}>
+                                用户名：<input type="text" ref={(currentNode) => {
+                                this.username = currentNode
+                            }} placeholder="username" name="username"/>
+                                密码：<input type="password" ref={(currentNode) => {
+                                this.password = currentNode
+                            }} placeholder="password" name="password"/>
+                                <button>Submit</button>
+                            </form>
+                        </div>
+                    );
+                }
+            }
+
+            // 渲染虚拟dom到页面
+            ReactDOM.render(<Login/>, document.getElementById('test'))
+        </script>
+    </body>
+</html>
